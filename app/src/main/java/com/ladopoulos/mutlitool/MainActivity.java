@@ -3,12 +3,8 @@ package com.ladopoulos.mutlitool;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.widget.Toast;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -31,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.ACCESS_COARSE_LOCATION) // ask single or multiple permission once
                 .subscribe(new Consumer<Boolean>() {
                     @Override
-                    public void accept(Boolean granted) throws Exception {
+                    public void accept(Boolean granted) {
                     }
                 });
 
