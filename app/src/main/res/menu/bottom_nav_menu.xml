@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_Map"
+        android:icon="@android:drawable/ic_menu_mapmode"
+        android:title="@string/title_Map" />
+
+    <item
+        android:id="@+id/navigation_Countdown"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="@string/title_Countdown" />
+
+    <item
+        android:id="@+id/navigation_Storetext"
+        android:icon="@android:drawable/ic_menu_sort_alphabetically"
+        android:title="@string/title_Storetext" />
+    <item
+        android:id="@+id/navigation_Web"
+        android:icon="@drawable/capture"
+        android:title="@string/title_Web" />
+
+</menu>

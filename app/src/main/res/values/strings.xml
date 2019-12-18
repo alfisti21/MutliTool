@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MultiTool</string>
+    <string name="title_Map">Map</string>
+    <string name="title_Countdown">Countdown</string>
+    <string name="title_Storetext">Store Text</string>
+    <string name="title_Web">Web</string>
+    <string name="distanceText">The distance between you current location and the Pin is:</string>
+    <string name="Km">Km</string>
+</resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_Map">
+
+    <fragment
+        android:id="@+id/navigation_Map"
+        android:name="com.ladopoulos.mutlitool.ui.map.MapFragment"
+        android:label="@string/title_Map"
+        tools:layout="@layout/fragment_map" />
+
+    <fragment
+        android:id="@+id/navigation_Countdown"
+        android:name="com.ladopoulos.mutlitool.ui.countdown.CountdownFragment"
+        android:label="@string/title_Countdown"
+        tools:layout="@layout/fragment_countdown" />
+
+    <fragment
+        android:id="@+id/navigation_Storetext"
+        android:name="com.ladopoulos.mutlitool.ui.storetext.StoretextFragment"
+        android:label="@string/title_Storetext"
+        tools:layout="@layout/fragment_storetext" />
+
+    <fragment
+        android:id="@+id/navigation_Web"
+        android:name="com.ladopoulos.mutlitool.ui.web.WebFragment"
+        android:label="@string/title_Web"
+        tools:layout="@layout/fragment_web" />
+</navigation>
