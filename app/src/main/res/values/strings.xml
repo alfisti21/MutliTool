@@ -6,4 +6,6 @@
     <string name="title_Web">Web</string>
     <string name="distanceText">The distance between you current location and the Pin is:</string>
     <string name="Km">Km</string>
+    <string name="hint">Type your text here</string>
+    <string name="submit">SUBMIT</string>
 </resources>
