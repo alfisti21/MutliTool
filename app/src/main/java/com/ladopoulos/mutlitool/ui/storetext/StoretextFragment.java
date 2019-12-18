@@ -16,20 +16,9 @@ import com.ladopoulos.mutlitool.R;
 
 public class StoretextFragment extends Fragment {
 
-    private StoretextViewModel storetextViewModel;
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        storetextViewModel =
-                ViewModelProviders.of(this).get(StoretextViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_storetext, container, false);
         final TextView textView = root.findViewById(R.id.text_storetext);
-        storetextViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
         return root;
     }
 }
