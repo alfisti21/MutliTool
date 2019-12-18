@@ -57,23 +57,11 @@ public class MapFragment extends Fragment {
                 e.printStackTrace();
             }
 
-
             mMapView.getMapAsync(new OnMapReadyCallback() {
                 @Override
                 public void onMapReady(GoogleMap mMap) {
                     googleMap = mMap;
-
-
-                    if (checkLocationPermission()) {
-                        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
-                                Manifest.permission.ACCESS_FINE_LOCATION)
-                                == PackageManager.PERMISSION_GRANTED) {
-                            //Request location updates:
-                            googleMap.setMyLocationEnabled(true);
-
-                        }
-                    }
-
+                    googleMap.setMyLocationEnabled(true);
                     googleMap.getUiSettings().setCompassEnabled(true);
                     googleMap.getUiSettings().setMyLocationButtonEnabled(true);
                     googleMap.getUiSettings().setRotateGesturesEnabled(true);
@@ -140,64 +128,6 @@ public class MapFragment extends Fragment {
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
-    }
-
-    private boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("")
-                        .setMessage("")
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()),new String[]
-                                        {Manifest.permission.ACCESS_FINE_LOCATION},1);
-                            }
-                        })
-                        .create()
-                        .show();
-
-
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        1);
-            }
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 1) {// If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                // permission was granted, yay! Do the
-                // location-related task you need to do.
-                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
-                        Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    googleMap.setMyLocationEnabled(true);
-                }
-
-            } else {
-                Objects.requireNonNull(getActivity()).finish();
-            }
-        }
     }
 
     private static Location getLocationInLatLngRad(Location currentLocation) {

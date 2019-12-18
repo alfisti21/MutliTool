@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,7 +19,7 @@ import java.util.Objects;
 public class StoretextFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_storetext, container, false);
+        final View root = inflater.inflate(R.layout.fragment_storetext, container, false);
         final TextView textView = root.findViewById(R.id.text_storetext);
         final EditText editText = root.findViewById(R.id.editText);
         final Button button = root.findViewById(R.id.button);
@@ -26,10 +27,13 @@ public class StoretextFragment extends Fragment {
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(root.getWindowToken(), 0);
                 SharedPreferences.Editor editor = myPrefs.edit();
                 editor.putString("STRING", editText.getText().toString());
                 editor.apply();
                 textView.setText(myPrefs.getString("STRING", null));
+                editText.getText().clear();
             }
         });
         textView.setText(myPrefs.getString("STRING", null));
