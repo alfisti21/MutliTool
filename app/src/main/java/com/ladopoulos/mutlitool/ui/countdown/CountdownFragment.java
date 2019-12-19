@@ -21,20 +21,17 @@ public class CountdownFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_countdown, container, false);
         final TextView textView = root.findViewById(R.id.text_countdown);
         final ProgressBar bar = root.findViewById(R.id.progressBar);
+        bar.setProgress(0);
         countdownViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
         });
-        countdownViewModel.loaded().observe(this, new Observer<Boolean>() {
+        countdownViewModel.loaded().observe(this, new Observer<Integer>() {
             @Override
-            public void onChanged(@Nullable Boolean isLoading) {
-                if (isLoading != null) {
-                    if (isLoading) {
-                        bar.setVisibility(View.GONE);
-                    }
-                }
+            public void onChanged(@Nullable Integer isLoading) {
+                bar.setProgress(isLoading);
             }
         });
         return root;
