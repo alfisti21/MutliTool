@@ -85,17 +85,6 @@ public class MapFragment extends Fragment {
                             });
                 }
             });
-            // For dropping a marker at a point on the Map
-            //LatLng random = new LatLng(Float.parseFloat("Lat"), Float.parseFloat("Long"));
-
-
-
-        /*mapViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String distance) {
-                textView.setText(distance);
-            }
-        });*/
         return root;
     }
 
