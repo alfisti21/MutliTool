@@ -2,10 +2,12 @@ package com.ladopoulos.mutlitool;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.webkit.WebView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import androidx.annotation.RequiresApi;
@@ -14,42 +16,35 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.jsoup.Jsoup;
+import org.jsoup.helper.HttpConnection;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity {
+    SharedPreferences myPrefs;
+
     @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         try {
-            String s = new DownloadFilesTask().execute("https://www.eurail.com/en/get-inspired").get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+            int size = new DownloadFilesTask().execute("https://www.eurail.com/en/get-inspired").get();
+            myPrefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = myPrefs.edit();
+            editor.putString("DIVS", String.valueOf(size));
+            editor.apply();
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
+        WebView view = new WebView(getApplicationContext());
+        view.loadUrl("https://www.eurail.com/en/get-inspired");
 
         //RxPermission used for permissions. Saves code
         RxPermissions rxPermissions = new RxPermissions(this);
@@ -74,53 +69,24 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
     }
 
-    private class DownloadFilesTask extends AsyncTask<String, String, String> {
-        // these Strings / or String are / is the parameters of the task, that can be handed over via the excecute(params) method of AsyncTask
+    private static class DownloadFilesTask extends AsyncTask<String, String, Integer> {
         @RequiresApi(api = Build.VERSION_CODES.N)
-        protected String doInBackground(String... url) {
-            // constants
-            int timeoutSocket = 5000;
-            int timeoutConnection = 5000;
-
-            HttpParams httpParameters = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-            HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
-            HttpClient client = new DefaultHttpClient(httpParameters);
-
-            HttpGet httpget = new HttpGet(url[0]);
-
+        protected Integer doInBackground(String... url) {
             try {
-                HttpResponse getResponse = client.execute(httpget);
-                final int statusCode = getResponse.getStatusLine().getStatusCode();
-
-                if(statusCode != HttpStatus.SC_OK) {
-                    Log.w("MyApp", "Download Error: " + statusCode + "| for URL: " + url);
-                    return null;
-                }
-
-                String line;
-                StringBuilder total = new StringBuilder();
-
-                HttpEntity getResponseEntity = getResponse.getEntity();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(getResponseEntity.getContent()));
-
-                while((line = reader.readLine()) != null) {
-                    total.append(line);
-                }
-
-                line = total.toString();
-                Log.e("HTML", line);
-                return line;
-            } catch (Exception e) {
-                Log.w("MyApp", "Download Exception : " + e.toString());
+                Document doc = Jsoup.connect(url[0])
+                        .userAgent(HttpConnection.DEFAULT_UA)
+                        .referrer("http://www.google.com")
+                        .maxBodySize(0)
+                        .timeout(12000)
+                        .followRedirects(true)
+                        .get();
+                Elements divs = doc.getElementsByTag("div");
+                return divs.size();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return null;
+            return 0;
         }
-        // the onPostexecute method receives the return type of doInBackGround()
-        protected void onPostExecute(String result) {
-            // do something with the result, for example display the received Data in a ListView
-            // in this case, "result" would contain the "someLong" variable returned by doInBackground();
-        }
+        protected void onPostExecute(String result) {}
     }
 }

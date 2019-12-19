@@ -27,8 +27,8 @@ public class StoretextFragment extends Fragment {
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(root.getWindowToken(), 0);
+                InputMethodManager imm = (InputMethodManager) Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
+                Objects.requireNonNull(imm).hideSoftInputFromWindow(root.getWindowToken(), 0);
                 SharedPreferences.Editor editor = myPrefs.edit();
                 editor.putString("STRING", editText.getText().toString());
                 editor.apply();
