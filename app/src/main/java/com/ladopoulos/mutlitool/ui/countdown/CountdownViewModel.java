@@ -10,7 +10,7 @@ public class CountdownViewModel extends ViewModel {
     private String emoji;
     private MutableLiveData<String> mText;
     private MutableLiveData<Integer> isLoading;
-    int i=0;
+    private int i=0;
 
     public CountdownViewModel() {
 
@@ -40,8 +40,5 @@ public class CountdownViewModel extends ViewModel {
     }
     private String getEmojiByUnicode(int unicode){
         return new String(Character.toChars(unicode));
-    }
-    private void downloadFinished() {
-        isLoading.setValue(100);
     }
 }
