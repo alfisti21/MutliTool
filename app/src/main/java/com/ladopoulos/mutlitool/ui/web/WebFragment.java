@@ -19,14 +19,13 @@ import com.ladopoulos.mutlitool.R;
 import java.util.Objects;
 
 public class WebFragment extends Fragment {
-    SharedPreferences myPrefs;
 
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_web, container, false);
         final TextView textView = root.findViewById(R.id.text_web);
         final WebView myWebView = root.findViewById(R.id.web_view);
-        myPrefs = Objects.requireNonNull(getActivity()).getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        SharedPreferences myPrefs = Objects.requireNonNull(getActivity()).getSharedPreferences("prefs", Context.MODE_PRIVATE);
         String divs = myPrefs.getString("DIVS", null);
         myWebView.setInitialScale(1);
         myWebView.getSettings().setDomStorageEnabled(true);
@@ -47,7 +46,7 @@ public class WebFragment extends Fragment {
                 return false;
             }
         });
-        textView.setText("The website contains "+divs+" \"<div>\" tags");
+        textView.setText(String.format("The website contains %s \"<div>\" tags", divs));
         return root;
     }
 }
