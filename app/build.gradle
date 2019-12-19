@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    useLibrary 'org.apache.http.legacy'
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -17,6 +18,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 allprojects {
@@ -41,4 +43,5 @@ dependencies {
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    implementation 'org.jsoup:jsoup:1.10.3'
 }
